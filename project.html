@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин фруктів та овочів</title>
+    <link rel="stylesheet" href="./project.css">
+    <script src="project.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <div class="logo">
+                <img src="https://logomaster.com.ua/works/gallantica_logo.gif" alt="Логотип">
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Пошук товарів..">
+                <button>🔍</button>
+            </div>
+            <div class="cart">
+                <img src="https://cdn-icons-png.flaticon.com/512/7499/7499621.png" alt="Кошик" id="cart-button">
+                <div id="cart-dropdown" class="cart-dropdown">
+                    <h3>Кошик</h3>
+                    <ul id="cart-items"></ul>
+                </div>
+            </div>
+            <div class="interface-icon">
+                <button id="interface-toggle">☰ Каталог</button>
+            </div>
+        </div>
+        <div id="side-interface" class="side-interface">
+            <button id="close-interface">×</button>
+            <h2>Категорії товарів</h2>
+            <ul>
+                <li><a href="#" data-category="fruits">Фрукти</a></li>
+                <li><a href="#" data-category="vegetables">Овочі</a></li>
+                <li><a href="#" data-category="drinks">Напої</a></li>
+                <li><a href="#" data-category="dairy">Молочні продукти</a></li>
+                <li><a href="#" data-category="snacks">Снеки</a></li>
+            </ul>
+            <div class="side-cart">
+                <h2>Ваш кошик</h2>
+                <div id="cart-items">
+                </div>
+                <p>Загальна сума: <span id="total-price">0 грн</span></p>
+                <button id="checkout">Оформити замовлення</button>
+            </div>
+            <button id="register-button">Зареєструватися</button>
+        </div>
+    </header>
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-register">&times;</span>
+            <h2>Реєстрація</h2>
+            <form id="registration-form">
+                <label for="username">Ім'я користувача</label>
+                <input type="text" id="username" required>
+                <label for="password">Пароль</label>
+                <input type="password" id="password" required>
+                <button type="submit">Зареєструватися</button>
+            </form>
+        </div>
+    </div>
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-order" class="close-button">&times;</span>
+            <h2>Оформлення замовлення</h2>
+            <p>Дякуємо за ваші покупки! Будь ласка, введіть свої дані для оформлення замовлення:</p>
+            <form id="order-form">
+                <label for="name">Ім'я</label>
+                <input type="text" id="name" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+                <label for="address">Адреса доставки</label>
+                <input type="text" id="address" required>
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" required>
+                <button type="submit">Підтвердити замовлення</button>
+            </form>
+        </div>
+    </div>
+    <main>
+        <section class="promo">
+            <img src="https://img.freepik.com/premium-vector/black-friday-banner-discount-sale-background_549149-150.jpg?w=1380"
+                alt="Акційний банер">
+        </section>
+        <section class="sorting-section">
+            <label for="sort-select">Сортування:</label>
+            <select id="sort-select">
+                <option value="name">за назвою</option>
+                <option value="popularity">по популярності</option>
+            </select>
+            <button id="back-button" style="display: none;">Повернутися на головну</button>
+        </section>
+        <section class="product-section">
+            <h2>Наша продукція</h2>
+            <div class="products-grid">
+                <div class="product" data-category="fruits" data-popularity="3">
+                    <img
+                        src="https://st.depositphotos.com/1000141/1868/i/450/depositphotos_18689193-stock-photo-red-apple-with-leaf.jpg">
+                    <h3>Яблуко</h3>
+                    <p>Ціна: 30 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="5">
+                    <img
+                        src="https://cdn-img.perekrestok.ru/i/800x800-fit/xdelivery/files/26/27/08d9f89c481148f7361cac9b644f.jpg">
+                    <h3>Банан</h3>
+                    <p>Ціна: 30 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="4">
+                    <img src="https://img3.zakaz.ua/upload.version_1.0.df01394534a5cdf85615082c18396db9.1350x1350.jpeg">
+                    <h3>Картопля</h3>
+                    <p>Ціна: 20 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="2">
+                    <img src="https://cucushop.ru/uploads/morkbig.png">
+                    <h3>Морква</h3>
+                    <p>Ціна: 15 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="1">
+                    <img src="https://content2.rozetka.com.ua/goods/images/big/342744937.jpg">
+                    <h3>Мультифруктовий сік</h3>
+                    <p>Ціна: 40 грн/1 уп</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="7">
+                    <img
+                        src="https://img.fozzyshop.com.ua/odesa/204151-large_default/moloko-prostokvashino-pasterizovannoe-25.jpg">
+                    <h3>Молоко</h3>
+                    <p>Ціна: 50 грн/1 уп</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="6">
+                    <img
+                        src="https://hophey.ua/upload/iblock/14a/catjvlqy6n1lz1ww16ulj2cjj4i15wkm/chipsy-lays-so-vkusom-smetany-s-zelenyu-60-g.png">
+                    <h3>Чіпси</h3>
+                    <p>Ціна: 35 грн/1 п</p>
+                    <span class="product-unit" style="display:none;">п</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="8">
+                    <img src="https://fruit-time.ua/images/cache/products/ed/abrikos-tureccina-500x500.jpeg">
+                    <h3>Абрикос</h3>
+                    <p>Ціна: 31 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати до кошика</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="9">
+                    <img src="https://img.fozzyshop.com.ua/dnipro/57227-large_default/pomidor.jpg">
+                    <h3>Помідор</h3>
+                    <p class="price">40 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="10">
+                    <img src="https://befreshcorp.net/wp-content/uploads/2017/07/product-packshot-Orange.jpg">
+                    <h3>Апельсин</h3>
+                    <p class="price">65 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="11">
+                    <img
+                        src="https://content.fora.ua/sku/ecommerce/68/545x440wwm/683260_545x440wwm_4689ba6a-997c-db0e-469a-2b63e7ef8915.png">
+                    <h3>Огірок</h3>
+                    <p class="price">35 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="12">
+                    <img src="https://horecaexpress.com.ua/image/cache/catalog/99-1348x899.jpg">
+                    <h3>Цибуля</h3>
+                    <p class="price">20 грн/1 шт</p>
+                    <span class="product-unit" style="display:none;">шт</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="13">
+                    <img
+                        src="https://content.fora.ua/sku/ecommerce/3/480x480fora/34604_480x480fora_2a133f21-0708-f259-194d-c63d12259f1d.png">
+                    <h3>Ананас</h3>
+                    <p class="price">85 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="14">
+                    <img src="https://aquamarket.ua/21368-large_default/yarich-155-g-pechevo-mariya-originalna.jpg">
+                    <h3>Печиво</h3>
+                    <p class="price">25 грн/1 п</p>
+                    <span class="product-unit" style="display:none;">п</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="15">
+                    <img
+                        src="https://content.fora.ua/sku/ecommerce/72/480x480fora/720125_480x480fora_854021bb-acfc-52e6-4535-62e2473815b7.png">
+                    <h3>Йогурт</h3>
+                    <p class="price">20 грн/1 ст</p>
+                    <span class="product-unit" style="display:none;">ст</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="16">
+                    <img src="https://agropolit.com/media/news/original/00/27/27243/sir-35030.jpg">
+                    <h3>Сир</h3>
+                    <p class="price">70 грн/кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="17">
+                    <img
+                        src="https://content.fora.ua/sku/ecommerce/92/480x480fora/924932_480x480fora_4925063a-9154-25e3-2754-f43f87e75bf8.png">
+                    <h3>Кола</h3>
+                    <p class="price">30 грн/1 бутл</p>
+                    <span class="product-unit" style="display:none;">бутл</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="18">
+                    <img src="https://varus.ua/img/product/1140/1140/307914">
+                    <h3>Мінеральна вода</h3>
+                    <p class="price">25 грн/1 бутл</p>
+                    <span class="product-unit" style="display:none;">бутл</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="19">
+                    <img
+                        src="https://cdn.prod.website-files.com/65ba47acaa465c7bfee66273/662a3e1fd56806f749f2bb8f_perec.webp">
+                    <h3>Перец</h3>
+                    <p class="price">55 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="19">
+                    <img src="https://content2.rozetka.com.ua/goods/images/original/338848824.jpg">
+                    <h3>Чай</h3>
+                    <p class="price">45 грн/1 упаковка</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="20">
+                    <img
+                        src="https://hophey.ua/upload/iblock/e21/0wyrmbtpons59mtv0u7pnucq3cf0fsae/napiy-energ-battery-mix-zh-b-0-5l-ukraina.png">
+                    <h3>Енергетичний напій</h3>
+                    <p class="price">50 грн/1 банка</p>
+                    <span class="product-unit" style="display:none;">б</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="21">
+                    <img
+                        src="https://produkty24.com.ua/db_pic/products/original/original_1459294392.68319296836853.jpg">
+                    <h3>Масло</h3>
+                    <p class="price">80 грн/1 уп</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="22">
+                    <img src="https://www.loostdorf.com/uploads/products/inner-image/64caccba367b0.png">
+                    <h3>Сметана</h3>
+                    <p class="price">30 грн/1 ст</p>
+                    <span class="product-unit" style="display:none;">ст</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="23">
+                    <img src="https://images.avrora.ua/images/detailed/15/47458_005.JPG">
+                    <h3>Попкорн</h3>
+                    <p class="price">35 грн/1 п</p>
+                    <span class="product-unit" style="display:none;">п</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="24">
+                    <img src="https://bonfit.ru/upload/iblock/a50/a50f1d40a22e0bbf6f0d16d42e034b2a.jpg">
+                    <h3>Крендель</h3>
+                    <p class="price">28 грн/1 п</p>
+                    <span class="product-unit" style="display:none;">п</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="25">
+                    <img src="https://images.prom.ua/4102145745_w700_h500_batonchik-prorostki-grechnevye.jpg">
+                    <h3>Гречані батончики</h3>
+                    <p class="price">55 грн/1 бат</p>
+                    <span class="product-unit" style="display:none;">бат</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="26">
+                    <img src="https://kozub.com.ua/image/cache/catalog/Products-NEW/4820094533309-1200x1654.jpg">
+                    <h3>Мюслі</h3>
+                    <p class="price">60 грн/1 короб</p>
+                    <span class="product-unit" style="display:none;">короб</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="27">
+                    <img src="https://produkty24.com.ua/db_pic/products/original/img_1518452_[1654171120.9376].jpg">
+                    <h3>Шоколад</h3>
+                    <p class="price">55 грн/1 плитка</p>
+                    <span class="product-unit" style="display:none;">пл</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="snacks" data-popularity="28">
+                    <img src="https://varus.ua/img/product/1140/1140/2611078">
+                    <h3>Крекери</h3>
+                    <p class="price">32 грн/1 п</p>
+                    <span class="product-unit" style="display:none;">п</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="29">
+                    <img src="https://img.fozzyshop.com.ua/180315-thickbox_default/napitok-obolon-limonad.jpg">
+                    <h3>Лимонад</h3>
+                    <p class="price">33 грн/1 бутл</p>
+                    <span class="product-unit" style="display:none;">бутл</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="30">
+                    <img src="https://img.klubok.com/img/used/2021/06/27/30225/30225892_3.jpg">
+                    <h3>Творог</h3>
+                    <p class="price">40 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="31">
+                    <img
+                        src="https://auchan.ua/media/catalog/product/e/d/edc8da41743abaa10a50107eb3c5c446cafdfbb736f9fcfa778dbd8a118824b9.jpeg">
+                    <h3>Вершки</h3>
+                    <p class="price">70 грн/1 л</p>
+                    <span class="product-unit" style="display:none;">л</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="dairy" data-popularity="32">
+                    <img src="https://foodfestival.com.ua/image/cache/catalog/000col/95317-1000x1000.jpg">
+                    <h3>Моцарелла</h3>
+                    <p class="price">100 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="33">
+                    <img src="https://varus.ua/img/product/1140/1140/130608">
+                    <h3>Яблучний сік</h3>
+                    <p class="price">30 грн/1 уп</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="34">
+                    <img
+                        src="https://happypen-photos.s3.eu-north-1.amazonaws.com/47655/sok-vinogradnyy-nektar-iz-krasnogo-vinograda-095l-sandora0">
+                    <h3>Виноградний сік</h3>
+                    <p class="price">35 грн/1 уп</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="drinks" data-popularity="35">
+                    <img src="https://img.fozzyshop.com.ua/222498-large_default/sok-sadochok-persikovyj-193l.jpg">
+                    <h3>Персиковий сік</h3>
+                    <p class="price">33 грн/1 уп</p>
+                    <span class="product-unit" style="display:none;">уп</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="36">
+                    <img src="https://img.fozzyshop.com.ua/210746-thickbox_default/kivi.jpg">
+                    <h3>Ківі</h3>
+                    <p class="price">50 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="37">
+                    <img src="https://befreshcorp.net/wp-content/uploads/2017/07/product-packshot-mango.jpg">
+                    <h3>Манго</h3>
+                    <p class="price">80 грн/1 шт</p>
+                    <span class="product-unit" style="display:none;">шт</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="38">
+                    <img src="https://fruit-time.ua/images/cache/products/55/grusa-ukrayina-500x500.jpeg">
+                    <h3>Груша</h3>
+                    <p class="price">30 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="39">
+                    <img
+                        src="https://img3.zakaz.ua/src.1598346655.ad72436478c_2020-08-25_Alina/src.1598346655.SNCPSG10.obj.0.1.jpg.oe.jpg.pf.jpg.1350nowm.jpg.1350x.jpg">
+                    <h3>Слива</h3>
+                    <p class="price">35 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="fruits" data-popularity="40">
+                    <img src="https://safaritrade.com.ua/wp-content/uploads/2020/09/000000188.jpg">
+                    <h3>Полуниця</h3>
+                    <p class="price">90 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="41">
+                    <img src="https://cooker.net.ua/upload/iblock/004/kapusta_brokkoli_400_600g_1702.jpg">
+                    <h3>Броколі</h3>
+                    <p>Ціна: 48 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="42">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjEQ_MZwwJHZ8FP-GPP6gfjSf6YFp-PblJWw&s">
+                    <h3>Шпинат</h3>
+                    <p>Ціна: 35 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="43">
+                    <img src="https://varus.ua/img/product/1140/1140/252790">
+                    <h3>Спаржа</h3>
+                    <p>Ціна: 85 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+                <div class="product" data-category="vegetables" data-popularity="44">
+                    <img src=https://gardenclub.ua/wp-content/uploads/2023/05/buryak_1.600x800.jpg"">
+                    <h3>Буряк</h3>
+                    <p>Ціна: 18 грн/1 кг</p>
+                    <span class="product-unit" style="display:none;">кг</span>
+                    <button>Додати в кошик</button>
+                </div>
+            </div>
+        </section>
+        <section class="advertisement">
+            <img src="https://img.freepik.com/free-vector/black-friday-sale-yellow-banner-with-text-space_1017-28055.jpg?t=st=1723827375~exp=1723830975~hmac=77689435f57538c5219e18f3095252bef30cdfd1be6294795685258496872599&w=1380"
+                alt="Реклама">
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Магазин продуктів. Всі права захищені.</p>
+            <ul>
+                <li><a href="mailto:nastamorar09@gmail.com">nastamorar09@gmail.com</a></li>
+                <li><a href="#">Контакти: +380661960035</a></li>
+            </ul>
+        </div>
+    </footer>
+    <button id="scroll-to-top" title="До початку">↑</button>
+</body>
+</html>
